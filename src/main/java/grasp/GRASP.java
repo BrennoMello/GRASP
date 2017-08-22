@@ -8,18 +8,17 @@ import java.util.ArrayList;
 public class GRASP {
 
     public static double euc_2d(double[] c1, double[] c2) {
-        return Math.sqrt(Math.pow((c1[0] - c2[0]), 2.0) + Math.pow((c1[1] - c2[1]), 2.0));
+        return Math.round(Math.sqrt(Math.pow((c1[0] - c2[0]), 2.0) + Math.pow((c1[1] - c2[1]), 2.0)));
     }
 
     public static double cost(int[] perm, double[][] cities) {
         double distance = 0;
-
+        
         for (int i = 0, c1 = 0; i < perm.length; i++, c1++) {
             int c2 = perm[(i + 1) % perm.length];
             //int c2 = (i == perm.length - 1) ? perm[0] : perm[i + 1];
             distance += euc_2d(cities[c1], cities[c2]);
         }
-
         return distance;
     }
 
@@ -41,7 +40,7 @@ public class GRASP {
         if (c2 < c1) {
             int aux = c2;
             c2 = c1;
-            c1 = c2;
+            c1 = aux;
         }
 
         int[] perm_old = perm.clone();
@@ -108,9 +107,7 @@ public class GRASP {
                 i++;
             }
 
-            //if(rcl.size() > 0){
             candidate_vector.add(rcl.get(rand.nextInt(rcl.size())));
-            //}
         }
 
         int[] candidate_array = candidate_vector.stream().mapToInt(i -> i).toArray();
